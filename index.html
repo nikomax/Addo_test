@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <a href="index.html"><h1 class="header__title">
+            Image view
+        </h1></a>
+    </div>
+</header>
+<section class="content">
+    <div class="container">
+        <div class="main">
+            <div class="gallery">
+
+            </div>
+            <ul class="pagination"></ul>
+        </div>
+        <aside class="filter">
+            <h2 class="filter__title">
+                Filter by
+            </h2>
+            <div class="filter__size size">
+                <h3 class="size__title title">Size</h3>
+                <form class="size__form form">
+                    <input class="large" name="size" type="radio" id="large">
+                    <label class="large" for="large">Large</label><br>
+                    <input class="medium" name="size" type="radio" id="medium">
+                    <label class="medium" for="medium">Medium</label><br>
+                    <input class="small" name="size" type="radio" id="small">
+                    <label class="small" for="small">Small</label>
+                </form>
+            </div>
+            <div class="filter__author author">
+                <h3 class="author__title title">Author</h3>
+                <ul class="author__list">
+
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>
+<div class="overlay">
+    <div class="preview">
+        <img class="preview__img" src="https://unsplash.it/1000/600?image=2" alt="image">
+    </div>
+</div>
+<script src="js.js"></script>
+</body>
+</html>
