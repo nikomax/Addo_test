@@ -7,8 +7,6 @@ var pagination = document.querySelector(".pagination");
 var size = document.querySelector(".size");
 var preview = document.querySelector(".overlay");
 var previewImg = document.querySelector(".preview__img");
-var authorList = document.querySelector(".author__list");
-var authorItem = 0;
 
 function chunk(arr, size) {
     var result = [];
@@ -16,16 +14,6 @@ function chunk(arr, size) {
         result.push(arr.slice(j, j + size));
     }
     return result;
-}
-
-function unique(arr) {
-    var newArr = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (!newArr.includes(arr[i])){
-            newArr.push(arr[i]);
-        }
-    }
-    return newArr;
 }
 
 function createPage(arr) {
@@ -47,10 +35,21 @@ function showDefaultImg(arr) {
     }
 }
 
+function active(el) {
+    if (selected) {
+        selected.classList.remove('selected');
+    }
+    selected = el;
+    selected.classList.add('selected');
+}
+
+var selected = null;
 function showImg(arr)  {
-    gallery.innerHTML = '';
     event.preventDefault();
     var target = event.target;
+    if (target.classList.value != 'page__link') return;
+    gallery.innerHTML = '';
+    active(target);
     var pageNum = target.getAttribute('href');
     for (var j = 0; j < arr[pageNum].length; j++) {
         var attr = 'https://unsplash.it/200?image=' + arr[pageNum][j];
@@ -64,8 +63,6 @@ function showImg(arr)  {
 function heightCondition (a, minHeight, maxHeight) {
     if (a.height > minHeight && a.height < maxHeight) {
         arrId.push(a.id);
-        authorArr.push(a.author);
-        authorList.appendChild(authorItem);
     }
 }
 
@@ -92,25 +89,14 @@ if (xhr.status != 200) {
     };
 
     size.onclick = function (event) {
-        authorList.innerHTML = '';
+        var targetLarge = event.target;
+        console.log(targetLarge);
+        if (targetLarge.getAttribute('name') != 'size') return;
+        var large = targetLarge.classList.value;
         gallery.innerHTML = '';
         pagination.innerHTML = '';
         arrId = [];
-        authorArr = [];
-        var targetLarge = event.target;
-        var large = targetLarge.classList.value;
-        var sortedAuthorArr = [];
         for (var i = 0; i < data.length; i++) {
-            authorItem = document.createElement('li');
-            authorItem.classList.add('author__item');
-            authorItem.innerHTML = `<a href="#">${data[i].author}</a>`;
-
-            if (!sortedAuthorArr.includes(authorArr[i])){
-                sortedAuthorArr.push(authorArr[i]);
-                console.log(authorArr[i]);
-            }
-
-
             if (large === 'small') {
                 heightCondition (data[i], 0, 799);
             } else if (large === 'medium') {
@@ -119,9 +105,6 @@ if (xhr.status != 200) {
                 heightCondition (data[i], 1500, Infinity);
             }
         }
-        // var sortedAuthorArr = unique(authorArr);
-
-        console.log(authorArr);
 
         chunkedArr = chunk(arrId, 20);
 
@@ -137,6 +120,7 @@ if (xhr.status != 200) {
     gallery.onclick = function (event) {
         event.preventDefault();
         var target = event.target;
+        if (target.classList.value != 'gallery__img') return;
         preview.style.display="block";
         var imageSrc = target.getAttribute('src');
         var imageId = imageSrc.substr(30);

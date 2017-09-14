@@ -76,8 +76,9 @@ li {
     padding: 10px;
 }
 
-.page__link--active {
+.selected {
     color: red;
+    text-decoration: none;
 }
 
 .overlay {
